@@ -1,11 +1,9 @@
 import { Router } from "express";
-import {
-
-} from '../controllers/channel.controller'
+import { getChannelsByServerId } from '../controllers/channel.controller'
 import { verifyJWT } from "../middleware/auth.middleware";
 
 const router = Router()
 
-// router.route("").get()
+router.route("/getChannelsByServerId").post(verifyJWT, getChannelsByServerId)
 
 export default router

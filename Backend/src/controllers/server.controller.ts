@@ -15,44 +15,53 @@ import { uploadOnCloudinary } from "../utils/Cloudinary";
 
 
 
-const getServersWhereUserIsMember = asyncHandler(async (req: AuthRequest, res: Response) => {
-    const { profileId } = req.body;
-    if (!profileId) {
-        throw new ApiError(400, "Cannot get profile Id");
-    }
+// const getServersWhereUserIsMember = asyncHandler(async (req: AuthRequest, res: Response) => {
+//     const { profileId } = req.body;
+//     if (!profileId) {
+//         throw new ApiError(400, "Cannot get profile Id");
+//     }
 
-    const servers: IServer[] = await Server.aggregate([
-        {
-            $lookup: {
-                from: 'members', // collection name in MongoDB
-                localField: '_id',
-                foreignField: 'serverId',
-                as: 'members'
-            }
-        },
-        {
-            $unwind: '$members'
-        },
-        {
-            $match: {
-                'members.profileId': profileId
-            }
-        },
-        {
-            $project: {
-                members: 0 // Exclude the members field from the result
-            }
-        }
-    ]);
-    return res.status(200).json(new ApiResponse(200, servers, "Servers fetched successfully"));
-});
-/*
+//     try {
+//         const servers: IServer[] = await Server.aggregate([
+//             {
+//                 $lookup: {
+//                     from: 'members',
+//                     localField: '_id',
+//                     foreignField: 'serverId',
+//                     as: 'members'
+//                 }
+//             },
+//             {
+//                 $match: {
+//                     'members.profileId': profileId
+//                 }
+//             },
+//             {
+//                 $project: {
+//                     name: 1,
+//                     serverImage: 1,
+//                     inviteCode: 1,
+//                     profileId: 1,
+//                     channels: 1,
+//                     createdAt: 1,
+//                     updatedAt: 1
+//                 }
+//             }
+//         ]);
+
+//         return res.status(200).json(new ApiResponse(200, servers, "Servers fetched successfully"));
+//     } catch (error) {
+//         throw new ApiError(500, "An error occurred while fetching servers");
+//     }
+// });
+
+
 const getServersWhereUserIsMember = asyncHandler(async (req: AuthRequest, res: Response) => {
     const { profileId } = req.body;
     if (!profileId) {
       throw new ApiError(400, "Cannot get profile Id");
     }
-    const members = await Member.find({ profileId }); 
+    const members: IMember[] | null = await Member.find({ profileId }); 
     if (!members.length) {
       return res.status(200).json(new ApiResponse(200, [], "No servers found for this user"));
     }  
@@ -60,7 +69,7 @@ const getServersWhereUserIsMember = asyncHandler(async (req: AuthRequest, res: R
     const servers: IServer[] | null = await Server.find({ _id: { $in: serverIds } });  
     return res.status(200).json(new ApiResponse(200, servers, "Servers fetched successfully"));
 });
-*/
+
 
 const createServer = asyncHandler(async (req: AuthRequest, res: Response) => {
     const { serverName, profileId } = req.body;

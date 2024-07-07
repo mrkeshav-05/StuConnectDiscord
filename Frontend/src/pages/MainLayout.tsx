@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { fetchProfile, selectUserProfile } from "@/features/profile/ProfileSlice";
 import { AppDispatch } from '@/app/store';
-import UserButton from '@/components/auth/user-button';
-import CreateServerModal from '@/components/modals/CreateServeModal';
-import JoinServerModal from '@/components/modals/JoinServerModal';
-import { ModeToggle } from '@/components/theme/mode-toggle';
+import MainSidebar from '@/components/navigation/MainSidebar';
+import ServerSidebar from '@/components/navigation/ServerSidebar';
 
-const SetupPage = () => {
+const MainLayout = () => {
   const dispatch = useDispatch<AppDispatch>();
   const profile = useSelector(selectUserProfile);
   const navigate = useNavigate();
@@ -24,17 +22,18 @@ const SetupPage = () => {
   }, [profile, navigate]);
 
   return (
-    <div>
-      <UserButton />
-      <ModeToggle/>
-      {profile?.servers?.length === 0 && (
-        <div>
-          <CreateServerModal/>
-          <JoinServerModal/>
-        </div>
-      )}
+    <div className='flex h-full'>
+      <div className='hidden z-40 md:flex h-full w-16 flex-col fixed'>
+        <MainSidebar />
+      </div>
+      <div className='hidden z-20 md:flex h-full w-60 flex-col fixed left-16'>
+        <ServerSidebar/>
+      </div>
+      <main className='hidden z-0 md:flex h-full w-full flex-col fixed left-[305px]'>
+        <Outlet />
+      </main>
     </div>
   );
 };
 
-export default SetupPage;
+export default MainLayout;

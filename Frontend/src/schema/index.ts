@@ -23,3 +23,7 @@ export const PasswordSchema = z.object({
 export const createServerSchema = z.object({
     name: z.string().min(1, { message: "Server name is required" }),
 })
+
+export const joinServerSchema = z.object({
+    inviteCode: z.string().min(1, { message: "Enter Invite Code" }),
+})

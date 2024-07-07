@@ -8,7 +8,7 @@ import { upload } from "../middleware/multer.middleware";
 
 const router = Router()
 
-router.route("/getServersWhereUserIsMember").get(verifyJWT, getServersWhereUserIsMember)
+router.route("/getServersWhereUserIsMember").post(verifyJWT, getServersWhereUserIsMember)
 
 router.route("/createServer").post(
     verifyJWT,

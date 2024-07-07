@@ -1,11 +1,9 @@
 import { Router } from "express";
-import {
-
-} from '../controllers/member.controller'
+import { getMembersByServerId } from '../controllers/member.controller'
 import { verifyJWT } from "../middleware/auth.middleware";
 
 const router = Router()
 
-// router.route("").get()
+router.route("/getMembersByServerId").post(verifyJWT, getMembersByServerId)
 
 export default router

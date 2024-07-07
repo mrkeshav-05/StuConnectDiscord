@@ -9,12 +9,15 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import sessionStorage from 'redux-persist/lib/storage/session'; // use session storage instead of local storage
 
 import authReducer from '@/features/auth/AuthSlice';
 import userReducer from '@/features/user/UserSlice';
 import profileReducer from '@/features/profile/ProfileSlice';
 import uploadReducer from '@/features/Upload/UploadSlice';
+import serverReducer from '@/features/server/ServerSlice'
+import channelReducer from '@/features/channel/ChannelsSlice'
+import memberReducer from '@/features/member/MembersSlice'
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -22,13 +25,16 @@ const rootReducer = combineReducers({
   user: userReducer,
   profile: profileReducer,
   upload: uploadReducer,
+  server: serverReducer,
+  channels: channelReducer,
+  members: memberReducer,
 });
 
 // Configuration for redux-persist
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage,
+  storage: sessionStorage, // use sessionStorage here
 };
 
 // Create a persisted reducer

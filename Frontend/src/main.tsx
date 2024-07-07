@@ -6,13 +6,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from '@/Layout'
 import { SignIn } from '@/pages/auth/signin-page'
 import { SignUp } from '@/pages/auth/signup-page'
-import SetupPage from '@/pages/setup-page'
+import MainLayout from '@/pages/MainLayout'
 import { store, persistor } from '@/app/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Test from '@/pages/test'
+import Test from '@/pages/Test'
+import ServerIdPage from '@/pages/ServerIdPage'
 
 const router = createBrowserRouter([
   // Protected Routes are Layout and its childrens
@@ -22,12 +23,14 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <SetupPage/>
+        element: <MainLayout/>,
+        children: [
+          {
+            path: "servers/:id",
+            element: <ServerIdPage/>
+          },
+        ]
       },
-      {
-        path: "server/:id",
-        element: <h1>Welcome to server</h1>
-      }
     ]
   },
   //Public Routes

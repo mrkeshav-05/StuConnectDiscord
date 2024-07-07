@@ -19,3 +19,9 @@ export const createServer = async (serverName: string, serverImage: File, profil
         throw error;
     }
 };
+
+export const joinServer = async(inviteCode: string, profileId: string) => {
+    console.log("Invite Code: ",inviteCode);
+    console.log("ProfileId: : ",profileId);
+}
+
