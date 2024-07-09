@@ -128,12 +128,67 @@ const createServer = asyncHandler(async (req: AuthRequest, res: Response) => {
         }
     );
 
-    return res.status(201).json(
-        new ApiResponse(201, savedServer, "Server created successfully")
+    return res.status(200).json(
+        new ApiResponse(200, savedServer, "Server created successfully")
     );
 });
+
+const joinServer = asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { profileId, inviteCode } = req.body;
+    if (!profileId) {
+        throw new ApiError(400, "Cannot get profile Id");
+    }
+    if (!inviteCode) {
+        throw new ApiError(400, "Cannot get invite code");
+    }
+
+    const server: IServer | null = await Server.findOne({ inviteCode });
+    if (!server) {
+        throw new ApiError(400, "Invalid invite code");
+    }
+
+    const profile = await Profile.findById(profileId);
+    if (!profile) {
+        throw new ApiError(400, "Profile not found");
+    }
+
+    // Check if the server ID is already in the profile's servers array
+    if (profile.servers.includes(server._id as mongoose.Types.ObjectId)) {
+        return res.status(200).json(
+            new ApiResponse(200, server._id, "Already a member of the server")
+        );
+    }
+
+    // Add server ID to profile's servers array
+    await Profile.findByIdAndUpdate(
+        profileId,
+        {
+            $push: { servers: server._id }
+        }
+    );
+
+    // Create a new member for the server
+    const guestMember: IMember = await Member.create({
+        role: MemberRole.GUEST,
+        profileId: profileId,
+        serverId: server._id
+    });
+    if (!guestMember) {
+        throw new ApiError(400, "An error occurred while creating the member");
+    }
+
+    // Add the new member to the server's members array
+    server.members.push(guestMember._id as mongoose.Types.ObjectId);
+    await server.save();
+
+    return res.status(200).json(
+        new ApiResponse(200, server._id, "Server joined successfully")
+    );
+});
+
 
 export {
     getServersWhereUserIsMember,
     createServer,
+    joinServer,
 }

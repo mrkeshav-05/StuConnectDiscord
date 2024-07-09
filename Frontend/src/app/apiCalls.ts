@@ -20,8 +20,22 @@ export const createServer = async (serverName: string, serverImage: File, profil
     }
 };
 
-export const joinServer = async(inviteCode: string, profileId: string) => {
-    console.log("Invite Code: ",inviteCode);
-    console.log("ProfileId: : ",profileId);
-}
+export const joinServer = async (inviteCode: string, profileId: string) => {
+    try {
+        const response = await api.post('/servers/joinServer', { inviteCode, profileId });
+        return response.data.data;
+    } catch (error) {
+        console.error('Error in joinServer:', error);
+        throw error;
+    }
+};
 
+export const getProfilesByServerId = async (serverId: string) => {
+    try {
+        const response = await api.post('/profiles/getProfilesByServerId', { serverId });
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+};

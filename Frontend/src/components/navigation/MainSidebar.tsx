@@ -5,17 +5,19 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserProfile } from "@/features/profile/ProfileSlice";
 import { useEffect, useState } from "react";
-import { fetchServers } from "@/features/server/ServerSlice";
-import { RootState, AppDispatch } from "@/app/store";
+import { fetchServers, selectServers } from "@/features/server/ServerSlice";
+import { AppDispatch } from "@/app/store";
 import NavigationItem from "@/components/navigation/NavigationItem";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import UserButton from "@/components/auth/user-button";
 import AddServerModal from "@/components/modals/AddServerModal"; // Correct import path
 
+
+
 const MainSidebar = () => {
     const profile = useSelector(selectUserProfile);
     const dispatch = useDispatch<AppDispatch>();
-    const servers = useSelector((state: RootState) => state.server.servers);
+    const servers = useSelector(selectServers);
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -27,6 +29,7 @@ const MainSidebar = () => {
     const toggleModal = () => {
         setIsOpen(prev => !prev);
     };
+
 
     return (
         <div className="space-y-4 flex flex-col items-center h-full w-full text-primary bg-slate-300 dark:bg-[#1E1F22] py-3">

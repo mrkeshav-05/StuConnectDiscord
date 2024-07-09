@@ -3,7 +3,7 @@ import api from '@/app/api';
 import { RootState } from '@/app/store';
 import { displayError, extractErrorMessage } from '@/lib/utils';
 
-interface Profile {
+export interface Profile {
     _id: string,
     userId: string,
     username: string,

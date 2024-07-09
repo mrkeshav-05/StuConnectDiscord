@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
     createServer,
     getServersWhereUserIsMember,
+    joinServer,
 } from '../controllers/server.controller'
 import { verifyJWT } from "../middleware/auth.middleware";
 import { upload } from "../middleware/multer.middleware";
@@ -20,5 +21,7 @@ router.route("/createServer").post(
     ]),
     createServer
 )
+
+router.route("/joinServer").post(verifyJWT, joinServer)
 
 export default router

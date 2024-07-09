@@ -25,7 +25,7 @@ interface Image {
     api_key: string;
 }
 
-interface Server {
+export interface Server {
     _id: string;
     name: string;
     serverImage: Image;

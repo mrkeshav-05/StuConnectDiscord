@@ -26,7 +26,8 @@ const serverSchema: Schema = new Schema({
     },
     inviteCode: { 
         type: String, 
-        required: true 
+        required: true,
+        unique: true,
     },
     profileId: { 
         type: String, 

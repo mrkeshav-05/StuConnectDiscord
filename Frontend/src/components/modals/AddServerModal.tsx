@@ -67,8 +67,9 @@ const AddServerModal = ({ isOpen, onClose }: ServerModalProps) => {
         if (profile?._id) {
             try {
                 onClose(); // Close the modal after successful submission
-                await joinServer(values.inviteCode, profile._id);
-                // console.log(response);
+                const id = await joinServer(values.inviteCode, profile._id);
+                dispatch(fetchProfile());
+                navigate(`/servers/${id}`)
             } catch (error) {
                 displayError("Error joining server");
                 console.error("Error joining server:", error);
