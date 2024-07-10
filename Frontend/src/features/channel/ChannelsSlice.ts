@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
 import api from '@/app/api';
+import { resetStore } from '@/app/resetActions';
 
 interface Channel {
     _id: string;
@@ -59,7 +60,8 @@ const channelsSlice = createSlice({
             .addCase(fetchChannels.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
-            });
+            })
+            .addCase(resetStore, () => initialState);
     },
 });
 

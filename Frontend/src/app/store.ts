@@ -1,3 +1,4 @@
+// src/app/store.ts
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import {
   persistStore,
@@ -15,9 +16,10 @@ import authReducer from '@/features/auth/AuthSlice';
 import userReducer from '@/features/user/UserSlice';
 import profileReducer from '@/features/profile/ProfileSlice';
 import uploadReducer from '@/features/Upload/UploadSlice';
-import serverReducer from '@/features/server/ServerSlice'
-import channelReducer from '@/features/channel/ChannelsSlice'
-import memberReducer from '@/features/member/MembersSlice'
+import serverReducer from '@/features/server/ServerSlice';
+import channelReducer from '@/features/channel/ChannelsSlice';
+import memberReducer from '@/features/member/MembersSlice';
+import { resetStore } from '@/app/resetActions'; // Import the reset action
 
 // Combine all reducers
 const rootReducer = combineReducers({
@@ -38,11 +40,16 @@ const persistConfig = {
 };
 
 // Create a persisted reducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = (state: any, action: any) => {
+  if (action.type === resetStore.type) {
+    state = undefined; // Reset the state to undefined to trigger a reset
+  }
+  return rootReducer(state, action);
+};
 
 // Create the store with the persisted reducer
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: persistReducer(persistConfig, persistedReducer),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -54,7 +61,7 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// Infer the RootState and AppDispatch types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

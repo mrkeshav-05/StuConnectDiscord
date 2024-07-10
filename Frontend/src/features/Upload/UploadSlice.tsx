@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
+import { resetStore } from '@/app/resetActions';
 
 interface UploadState {
     file: File | null;
@@ -19,6 +20,9 @@ const uploadSlice = createSlice({
         unsetFile: (state) => {
             state.file = null;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(resetStore, () => initialState);
     }
 });
 

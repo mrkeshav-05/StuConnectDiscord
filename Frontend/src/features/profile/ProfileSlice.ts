@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import api from '@/app/api';
 import { RootState } from '@/app/store';
 import { displayError, extractErrorMessage } from '@/lib/utils';
+import { resetStore } from '@/app/resetActions';
 
 export interface Profile {
     _id: string,
@@ -68,6 +69,7 @@ const profileSlice = createSlice({
             state.loading = false;
             state.error = action.payload ?? 'An error occurred while fetching profile';
         })
+        .addCase(resetStore, () => initialState);
     }
 })
 

@@ -69,3 +69,10 @@ export const kickOutMember = async(memberId: string, profileId: string, serverId
         throw error;
     }
 }
+
+export const createChannel = async(profileId: string, serverId: string, channelType: string, channelName: string) => {
+    console.log(profileId);
+    console.log(serverId);
+    console.log(channelType);
+    console.log(channelName);
+}

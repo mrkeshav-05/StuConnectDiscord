@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
 import api from '@/app/api';
+import { resetStore } from '@/app/resetActions';
 
 interface Image {
     asset_id: string;
@@ -94,7 +95,8 @@ const serversSlice = createSlice({
             .addCase(fetchServers.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
-            });
+            })
+            .addCase(resetStore, () => initialState);
     },
 });
 

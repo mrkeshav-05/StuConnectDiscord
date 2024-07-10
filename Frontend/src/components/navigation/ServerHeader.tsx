@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectServers, Server } from '@/features/server/ServerSlice';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, LogOut, PlusCircle, Settings, Trash } from 'lucide-react';
+import { ChevronDown, LogOut, Settings, Trash } from 'lucide-react';
 import InvitePeopleModal from '@/components/modals/InvitePeopleModal';
+import CreateChannelModal from '@/components/modals/CreateChannelModal';
 
 interface ServerHeaderProps {
     role: string;
@@ -47,10 +48,7 @@ const ServerHeader: React.FC<ServerHeaderProps> = ({ role }) => {
                         </DropdownMenuItem>
                     )}
                     {isModerator && (
-                        <DropdownMenuItem preventClose className='px-3 py-2 text-sm cursor-pointer'>
-                            Create Channel
-                            <PlusCircle className='h-4 w-4 ml-auto' />
-                        </DropdownMenuItem>
+                        <CreateChannelModal/>
                     )}
                     {isModerator && (
                         <DropdownMenuSeparator />

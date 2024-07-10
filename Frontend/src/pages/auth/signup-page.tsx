@@ -42,8 +42,8 @@ export const SignUp: React.FC = () => {
       const resultAction = await dispatch(login(credentials));
       if (login.fulfilled.match(resultAction)) {
         console.log(response.data.message);
+        await dispatch(fetchUser())
         navigate('/');
-        dispatch(fetchUser())
       } else {
         console.error(resultAction.payload || 'Failed to login');
         const errorMessage = extractErrorMessage(resultAction.payload as string)

@@ -27,3 +27,8 @@ export const createServerSchema = z.object({
 export const joinServerSchema = z.object({
     inviteCode: z.string().min(1, { message: "Enter Invite Code" }),
 })
+
+export const createChannelSchema = z.object({
+    channelName: z.string().min(1, { message: "Enter channel name" }),
+    channelType: z.string()
+})

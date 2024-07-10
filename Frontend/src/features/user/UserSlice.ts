@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import api from '@/app/api';
 import { RootState } from '@/app/store';
 import { displayError, extractErrorMessage } from '@/lib/utils';
+import { resetStore } from '@/app/resetActions';
 
 // Define the structure of the avatar and coverImage objects
 interface Image {
@@ -256,7 +257,8 @@ const userSlice = createSlice({
             .addCase(updateCoverImage.rejected, (state, action: PayloadAction<string | undefined>) => {
                 state.error = action.payload ?? 'An error occurred while updating cover image';
                 state.loading = false;
-            });
+            })
+            .addCase(resetStore, () => initialState);
     },
 });
 

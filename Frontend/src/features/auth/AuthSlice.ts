@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import api from '@/app/api';
 import { displayError, extractErrorMessage } from '@/lib/utils';
+import { resetStore } from '@/app/resetActions';
 
 interface AuthState {
   accessToken: string | null;
@@ -40,6 +41,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
   try {
     const response = await api.post('users/logout');
     dispatch(logoutSuccess());
+    dispatch(resetStore());
     return response.data;
   } catch (error: any) {
     if (error.response && error.response.data) {
@@ -75,6 +77,7 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.isAuthenticated = false;
     });
+    builder.addCase(resetStore, () => initialState);
   },
 });
 

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
 import api from '@/app/api';
+import { resetStore } from '@/app/resetActions';
 
 export interface Member {
     _id: string;
@@ -59,7 +60,8 @@ const membersSlice = createSlice({
             .addCase(fetchMembers.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
-            });
+            })
+            .addCase(resetStore, () => initialState);
     },
 });
 
