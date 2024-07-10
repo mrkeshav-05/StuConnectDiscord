@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponse";
 import Member, { IMember } from "../models/member.model";
+import Profile, { IProfile } from "../models/profile.model";
 
 
 const getMembersByServerId = asyncHandler(async(req: AuthRequest, res: Response) => {
@@ -20,6 +21,74 @@ const getMembersByServerId = asyncHandler(async(req: AuthRequest, res: Response)
     return res.status(200).json(new ApiResponse(200, members, "Members fetched successfully"));
 })
 
+const changeRoleToGuest = asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { memberId } = req.body;
+    if (!memberId) {
+        throw new ApiError(400, "Cannot get member Id");
+    }
+
+    const member: IMember | null = await Member.findOneAndUpdate(
+        { _id: memberId },
+        { $set: { role: 'GUEST' } },
+        { new: true }
+    );
+
+    if (!member) {
+        throw new ApiError(400, "This member does not exist");
+    }
+
+    return res.status(200).json(new ApiResponse(200, member, "Role changed to guest successfully"));
+});
+
+const changeRoleToModerator = asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { memberId } = req.body;
+    if (!memberId) {
+        throw new ApiError(400, "Cannot get member Id");
+    }
+
+    const member: IMember | null = await Member.findOneAndUpdate(
+        { _id: memberId },
+        { $set: { role: 'MODERATOR' } },
+        { new: true }
+    );
+
+    if (!member) {
+        throw new ApiError(400, "This member does not exist");
+    }
+
+    return res.status(200).json(new ApiResponse(200, member, "Role changed to moderator successfully"));
+});
+
+const kickOutMember = asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { profileId, memberId, serverId } = req.body;
+    if (!memberId) {
+        throw new ApiError(400, "Cannot get member Id");
+    }
+    if (!profileId) {
+        throw new ApiError(400, "Cannot get profile Id");
+    }
+    if (!serverId) {
+        throw new ApiError(400, "Cannot get server Id");
+    }
+
+    await Member.deleteOne({ _id: memberId });
+
+    const profile: IProfile | null = await Profile.findOneAndUpdate(
+        { _id: profileId },
+        { $pull: { servers: serverId } },
+        { new: true }
+    );
+
+    if (!profile) {
+        throw new ApiError(400, "This profile does not exist");
+    }
+
+    return res.status(200).json(new ApiResponse(200, profile, "Member kicked out and server removed from profile successfully"));
+});
+
 export {
     getMembersByServerId,
+    changeRoleToGuest,
+    changeRoleToModerator,
+    kickOutMember,
 }

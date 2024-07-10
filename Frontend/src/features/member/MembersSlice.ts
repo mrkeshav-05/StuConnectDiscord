@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/app/store';
 import api from '@/app/api';
 
-interface Member {
+export interface Member {
     _id: string;
     role: string;
     profileId: string;
@@ -25,7 +25,7 @@ interface FetchMembersPayload {
     serverId: string;
 }
 
-const fetchMembers = createAsyncThunk<Member[], FetchMembersPayload, { rejectValue: string }>(
+export const fetchMembers = createAsyncThunk<Member[], FetchMembersPayload, { rejectValue: string }>(
     'members/fetchMembers',
     async (payload, { rejectWithValue }) => {
         try {
@@ -63,6 +63,5 @@ const membersSlice = createSlice({
     },
 });
 
-export { fetchMembers };
 export default membersSlice.reducer;
 export const selectMembers = (state: RootState) => state.members.members;

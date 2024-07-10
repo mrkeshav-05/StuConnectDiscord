@@ -39,3 +39,33 @@ export const getProfilesByServerId = async (serverId: string) => {
         throw error;
     }
 };
+
+export const changeRoleToGuest = async(memberId: string) => {
+    try {
+        const response = await api.post('/members/changeRoleToGuest', { memberId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}
+
+export const changeRoleToModerator = async(memberId: string) => {
+    try {
+        const response = await api.post('/members/changeRoleToModerator', { memberId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}
+
+export const kickOutMember = async(memberId: string, profileId: string, serverId: string) => {
+    try {
+        const response = await api.post('/members/changeRoleToModerator', { memberId, profileId, serverId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}
