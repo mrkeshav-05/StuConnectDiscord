@@ -20,7 +20,7 @@ const MainLayout = () => {
       navigate(`/servers/${profile.servers[0]}`);
     }
   }, [profile, navigate]);
-
+  
   return (
     <div className='flex h-full'>
       <div className='hidden z-40 md:flex h-full w-16 flex-col fixed'>

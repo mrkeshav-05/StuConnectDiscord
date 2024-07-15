@@ -71,7 +71,11 @@ const kickOutMember = asyncHandler(async (req: AuthRequest, res: Response) => {
         throw new ApiError(400, "Cannot get server Id");
     }
 
-    await Member.deleteOne({ _id: memberId });
+    try {
+        await Member.deleteOne({ _id: memberId });
+    } catch (error) {
+        throw new ApiError(400, "An error occurred while deleting member");
+    }
 
     const profile: IProfile | null = await Profile.findOneAndUpdate(
         { _id: profileId },

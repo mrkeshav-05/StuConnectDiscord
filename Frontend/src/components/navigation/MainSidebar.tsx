@@ -5,20 +5,32 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserProfile } from "@/features/profile/ProfileSlice";
 import { useEffect, useState } from "react";
-import { fetchServers, selectServers } from "@/features/server/ServerSlice";
+import { fetchServers, selectServers, Server } from "@/features/server/ServerSlice";
 import { AppDispatch } from "@/app/store";
 import NavigationItem from "@/components/navigation/NavigationItem";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import UserButton from "@/components/auth/user-button";
 import AddServerModal from "@/components/modals/AddServerModal"; // Correct import path
+import { fetchMembers } from "@/features/member/MembersSlice";
+import { useParams } from "react-router-dom";
+import { fetchChannels } from "@/features/channel/ChannelsSlice";
 
 
 
 const MainSidebar = () => {
     const profile = useSelector(selectUserProfile);
     const dispatch = useDispatch<AppDispatch>();
-    const servers = useSelector(selectServers);
+    const servers: Server[] = useSelector(selectServers);
     const [isOpen, setIsOpen] = useState(false);
+    const params = useParams()
+
+    useEffect(() => {
+        if (params.id) {
+            dispatch(fetchMembers({ serverId: params.id }));
+            dispatch(fetchChannels({ serverId: params.id }));
+        }
+    }, [dispatch, params.id]);
+
 
     useEffect(() => {
         if (profile) {
@@ -53,8 +65,8 @@ const MainSidebar = () => {
                 ))}
             </ScrollArea>
             <div className="pb-3 mt-auto flex flex-col items-center gap-y-4">
-                <ModeToggle/>
-                <UserButton/>
+                <ModeToggle />
+                <UserButton />
             </div>
             <AddServerModal isOpen={isOpen} onClose={toggleModal} />
         </div>

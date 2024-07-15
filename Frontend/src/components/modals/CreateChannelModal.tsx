@@ -12,17 +12,21 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from 'zod';
 import { createChannelSchema } from "@/schema";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUserProfile } from '@/features/profile/ProfileSlice';
-import { displayError } from '@/lib/utils';
 import { createChannel } from "@/app/apiCalls";
-import { useParams } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PlusCircle } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { fetchChannels } from "@/features/channel/ChannelsSlice";
+import { AppDispatch } from "@/app/store";
+import { fetchServers } from "@/features/server/ServerSlice";
+import { useState } from "react"; // Import useState
 
 const CreateChannelModal = () => {
+    const params = useParams<{ id: string }>();
     const profile = useSelector(selectUserProfile);
-    const params = useParams();
+    const dispatch = useDispatch<AppDispatch>();
+    const [isOpen, setIsOpen] = useState(false); // State for managing dialog open/close
 
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm({
         resolver: zodResolver(createChannelSchema),
@@ -32,15 +36,17 @@ const CreateChannelModal = () => {
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof createChannelSchema>) => {
+    const onSubmitCreate = async (values: z.infer<typeof createChannelSchema>) => {
         if (profile?._id) {
             try {
                 if (params.id) {
-                    const response = await createChannel(values.channelName, values.channelType, profile._id, params.id);
-                    console.log(response);
+                    const serverId: string = params.id;
+                    await createChannel(values.channelName, values.channelType, profile._id, serverId);
+                    dispatch(fetchChannels({ serverId: params.id }));
+                    dispatch(fetchServers({ profileId: profile._id }));
+                    setIsOpen(false);
                 }
             } catch (error) {
-                displayError("Error creating channel");
                 console.error("Error creating channel:", error);
             }
         } else {
@@ -49,21 +55,18 @@ const CreateChannelModal = () => {
     };
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex m-0 items-center">
-                    Create Channel
-                    <PlusCircle className='h-4 w-4 ml-[92px]' />
-                </Button>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger>
+                <div className="w-56 rounded-md hover:bg-zinc-950 transition h-10 bg-[#1E1F22] flex items-center justify-center">Create Channel</div>
             </DialogTrigger>
             <DialogContent className="bg-white dark:bg-black text-black dark:text-white p-0 overflow-hidden">
                 <DialogTitle className="text-2xl mt-6 text-center font-bold">
-                    Create Channel
+                    Create a Channel
                 </DialogTitle>
                 <DialogDescription className="text-center text-zinc-500 dark:text-white px-4">
-                    Create TEXT, AUDIO, and VIDEO channels for the server.
+                    Enter details to create a new channel.
                 </DialogDescription>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmitCreate)}>
                     <div className="space-y-8 px-6 py-3">
                         <div>
                             <label className="text-xs uppercase font-bold text-zinc-500 dark:text-white">

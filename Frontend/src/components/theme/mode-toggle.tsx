@@ -8,12 +8,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useTheme } from "@/components/theme/theme-provider"
+import ActionTooltip from "@/components/ActionTooltip"
 
 export function ModeToggle() {
   const { setTheme } = useTheme()
 
   return (
     <DropdownMenu>
+      <ActionTooltip side="right" align="end" label="Change Theme">
       <DropdownMenuTrigger asChild>
         <Button variant="customOutline" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -21,6 +23,7 @@ export function ModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
+      </ActionTooltip>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light

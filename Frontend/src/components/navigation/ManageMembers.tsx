@@ -16,7 +16,7 @@ interface ManageMembersProps {
 const ManageMembers = ({ isOpen, onClose }: ManageMembersProps) => {
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent>
+      <SheetContent className="dark:bg-[#2B2D31]">
         <SheetHeader>
           <SheetTitle className="flex">
             Members

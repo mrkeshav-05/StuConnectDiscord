@@ -16,6 +16,7 @@ import PasswordForm from "./password-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser, updateAvatar, updateCoverImage } from '@/features/user/UserSlice';
 import { AppDispatch } from '@/app/store';
+import ActionTooltip from '../ActionTooltip';
 
 // const user = {
 //     id: "jf489jrf9458598te46gd",
@@ -51,11 +52,13 @@ const UserButton = () => {
     return (
         <>
             <Dialog>
+                <ActionTooltip side="right" align="end" label="User Button">
                 <DialogTrigger asChild>
                     <Avatar>
-                        <AvatarImage src={user?.avatar?.url ?? 'https://github.com/shadcn.png'} alt="@shadcn" />
+                        <AvatarImage src={user?.avatar?.url ?? 'https://github.com/shadcn.png'} alt="@shadcn" className='cursor-pointer'/>
                     </Avatar>
                 </DialogTrigger>
+                </ActionTooltip>
                 <DialogContent className="sm:max-w-[525px]">
                     <div className="w-full h-36 relative">
                         <div className="w-full h-36 overflow-hidden">

@@ -32,12 +32,13 @@ const ManageMembersItem = () => {
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const members = useSelector(selectMembers);
     const profile = useSelector(selectUserProfile);
-    const params = useParams();
+    const params = useParams<{ id: string }>();
     const dispatch = useDispatch<AppDispatch>();
 
-    const admin: Member | undefined = members.find((member) => member.role === 'ADMIN');
-    const moderators: Member[] = members.filter((member) => member.role === 'MODERATOR');
-    const guests: Member[] = members.filter((member) => member.role === 'GUEST');
+
+    const admin: Member | undefined = members.find((member: Member) => member.role === 'ADMIN');
+    const moderators: Member[] = members.filter((member: Member) => member.role === 'MODERATOR');
+    const guests: Member[] = members.filter((member: Member) => member.role === 'GUEST');
 
     const currentUserRole: Role = (() => {
         if (profile) {
@@ -83,7 +84,7 @@ const ManageMembersItem = () => {
         const profile = profiles.find((profile) => profile._id === profileId);
         if (profile) {
             return (
-                <CommandItem key={profile._id} className="hover:bg-white/10 flex items-center justify-between p-2">
+                <CommandItem key={profile._id} className="flex hover:bg-[#1E1F22] items-center justify-between p-2">
                     <div className="flex items-center">
                         <Avatar className="h-7 w-7 md:h-10 md:w-10">
                             <AvatarImage src={profile.imageUrl ?? undefined} />
@@ -135,12 +136,12 @@ const ManageMembersItem = () => {
     };
 
     return (
-        <Command className="rounded-lg h-screen border-none shadow-md text-white">
+        <Command className="rounded-lg h-screen dark:bg-[#2B2D31] border-none text-white">
             <CommandInput
                 placeholder="Search a member..."
-                className="border-b border-white/20 placeholder:text-white/60"
+                className="placeholder:text-white/60"
             />
-            <CommandList>
+            <CommandList className="border-none">
                 <CommandEmpty className="text-white">No results found.</CommandEmpty>
                 <CommandGroup heading="Admin" className="text-white">
                     {admin && renderProfile(admin.profileId, "ADMIN", admin._id)}

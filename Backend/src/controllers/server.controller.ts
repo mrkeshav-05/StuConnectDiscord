@@ -186,9 +186,40 @@ const joinServer = asyncHandler(async (req: AuthRequest, res: Response) => {
     );
 });
 
+const leaveServer = asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { serverId, profileId } = req.body;
+    
+    if (!profileId) {
+        throw new ApiError(400, "Cannot get profile Id");
+    }
+    if (!serverId) {
+        throw new ApiError(400, "Cannot get server Id");
+    }
+
+    try {
+        // Remove server from profile's servers array
+        await Profile.findByIdAndUpdate(
+            profileId,
+            { $pull: { servers: serverId } },
+            { new: true }
+        );
+
+        // Delete the member record
+        await Member.deleteOne({
+            serverId: serverId,
+            profileId: profileId
+        });
+    } catch (error) {
+        throw new ApiError(400, "An error occurred while leaving the server");
+    }
+
+    return res.status(200).json(new ApiResponse(200, [], "Left server successfully"));
+});
+
 
 export {
     getServersWhereUserIsMember,
     createServer,
     joinServer,
+    leaveServer
 }

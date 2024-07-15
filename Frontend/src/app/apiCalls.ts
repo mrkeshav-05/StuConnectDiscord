@@ -1,5 +1,4 @@
 import api from '@/app/api';
-
 export const createServer = async (serverName: string, serverImage: File, profileId: string) => {
     try {
         const formData = new FormData();
@@ -40,7 +39,7 @@ export const getProfilesByServerId = async (serverId: string) => {
     }
 };
 
-export const changeRoleToGuest = async(memberId: string) => {
+export const changeRoleToGuest = async (memberId: string) => {
     try {
         const response = await api.post('/members/changeRoleToGuest', { memberId });
         return response.data;
@@ -50,7 +49,7 @@ export const changeRoleToGuest = async(memberId: string) => {
     }
 }
 
-export const changeRoleToModerator = async(memberId: string) => {
+export const changeRoleToModerator = async (memberId: string) => {
     try {
         const response = await api.post('/members/changeRoleToModerator', { memberId });
         return response.data;
@@ -60,9 +59,9 @@ export const changeRoleToModerator = async(memberId: string) => {
     }
 }
 
-export const kickOutMember = async(memberId: string, profileId: string, serverId: string) => {
+export const kickOutMember = async (memberId: string, profileId: string, serverId: string) => {
     try {
-        const response = await api.post('/members/changeRoleToModerator', { memberId, profileId, serverId });
+        const response = await api.post('/members/kickOutMember', { memberId, profileId, serverId });
         return response.data;
     } catch (error) {
         console.error('Error fetching profiles:', error);
@@ -70,9 +69,32 @@ export const kickOutMember = async(memberId: string, profileId: string, serverId
     }
 }
 
-export const createChannel = async(profileId: string, serverId: string, channelType: string, channelName: string) => {
-    console.log(profileId);
-    console.log(serverId);
-    console.log(channelType);
-    console.log(channelName);
+export const createChannel = async (channelName: string, channelType: string, profileId: string, serverId: string,) => {
+    try {
+        const response = await api.post('/channels/createChannel', { channelName, channelType, profileId, serverId, });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+    }
 }
+
+export const leaveServer = async (profileId: string, serverId: string) => {
+    try {
+        const response = await api.post('/servers/leaveServer', { profileId, serverId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}
+
+export const deleteChannel = async (channelId: string, serverId: string) => {
+    try {
+        const response = await api.post('/channels/deleteChannel', { channelId, serverId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}
+

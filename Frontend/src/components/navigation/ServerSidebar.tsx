@@ -1,33 +1,32 @@
-import { AppDispatch } from "@/app/store";
-import { selectChannels, fetchChannels } from "@/features/channel/ChannelsSlice";
-import { selectMembers, fetchMembers } from "@/features/member/MembersSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { selectUserProfile } from "@/features/profile/ProfileSlice";
-import ServerHeader from "@/components/navigation/ServerHeader";
+import { useEffect, useState } from "react";
+import { selectServers, Server } from "@/features/server/ServerSlice";
+import { Button } from "@/components/ui/button";
+import ServerChannels from "@/components/navigation/ServerChannels";
 
 const ServerSidebar = () => {
     const { id } = useParams<{ id: string }>();
-    const dispatch = useDispatch<AppDispatch>();
-    const channels = useSelector(selectChannels);
-    const members = useSelector(selectMembers);
-    const profile = useSelector(selectUserProfile);
+    const servers = useSelector(selectServers);
 
+    const [server, setServer] = useState<Server | undefined>();
     useEffect(() => {
-        if (id) {
-            dispatch(fetchChannels({ serverId: id }));
-            dispatch(fetchMembers({ serverId: id }));
-        }
-    }, [dispatch, id]);
-    
-    const member = members.find((member) => member.profileId === profile?._id);
-    const role = member?.role; 
-    
+        const selectedServer = servers.find((server: Server) => server._id === id);
+        setServer(selectedServer);
+    }, [id, servers]);
+
+    if (!server) {
+        return null;
+    }
 
     return (
         <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
-            {role && <ServerHeader role={role}/>}
+            <Button className='w-full flex dark:text-white text-md font-semibold px-3 items-center h-12 border-neutral-200 bg-white text-zinc-800 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:bg-zinc-700/50 transition'>
+                {server.name}
+            </Button>
+            <div className="m-2">
+                <ServerChannels />
+            </div>
         </div>
     );
 }

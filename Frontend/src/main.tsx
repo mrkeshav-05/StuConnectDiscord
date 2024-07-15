@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Test from '@/pages/Test'
 import ServerIdPage from '@/pages/ServerIdPage'
+import ChannelIdPage from '@/pages/ChannelIdPage'
 
 const router = createBrowserRouter([
   // Protected Routes are Layout and its childrens
@@ -26,8 +27,14 @@ const router = createBrowserRouter([
         element: <MainLayout/>,
         children: [
           {
-            path: "servers/:id",
-            element: <ServerIdPage/>
+            path: "servers/:id/",
+            element: <ServerIdPage/>,
+            children: [
+              {
+                path: "channels/:channelId",
+                element: <ChannelIdPage/>
+              }
+            ]
           },
         ]
       },

@@ -3,7 +3,7 @@ import { RootState } from '@/app/store';
 import api from '@/app/api';
 import { resetStore } from '@/app/resetActions';
 
-interface Channel {
+export interface Channel {
     _id: string;
     name: string;
     type: string;
@@ -26,7 +26,7 @@ interface FetchChannelsPayload {
     serverId: string;
 }
 
-const fetchChannels = createAsyncThunk<Channel[], FetchChannelsPayload, { rejectValue: string }>(
+export const fetchChannels = createAsyncThunk<Channel[], FetchChannelsPayload, { rejectValue: string }>(
     'channels/fetchChannels',
     async (payload, { rejectWithValue }) => {
         try {
@@ -65,6 +65,5 @@ const channelsSlice = createSlice({
     },
 });
 
-export { fetchChannels };
 export default channelsSlice.reducer;
 export const selectChannels = (state: RootState) => state.channels.channels;

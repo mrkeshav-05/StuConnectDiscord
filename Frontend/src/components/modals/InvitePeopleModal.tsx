@@ -33,10 +33,10 @@ const InvitePeopleModal = ({ inviteCode }: ServerModalProps) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex m-0 items-center">
+                <button className='w-auto hover:text-blue-400 flex text-md px-3 items-center h-10 border-neutral-200 rounded-md mx-1 dark:border-neutral-800 border-2 dark:bg-zinc-700/50 transition'>
                     Invite People
-                    <UserPlus className='h-4 w-4 ml-[92px]' />
-                </Button>
+                    <UserPlus className="w-4 h-4 m-1 rounded-sm" />
+                </button>
             </DialogTrigger>
             <DialogContent className="bg-white dark:bg-black text-black dark:text-white p-0 overflow-hidden">
                 <DialogHeader className='pt-8 px-6'>
