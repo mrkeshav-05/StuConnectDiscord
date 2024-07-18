@@ -15,7 +15,7 @@ export interface IServer extends Document {
     channels: mongoose.Types.ObjectId[];
 }
 
-const serverSchema: Schema = new Schema({
+const serverSchema: Schema<IServer> = new Schema<IServer>({
     name: { 
         type: String, 
         required: true 

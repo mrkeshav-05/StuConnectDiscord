@@ -12,7 +12,7 @@ const ChannelIdPage = () => {
   const server: Server | undefined = servers.find((server) => server._id === params.id)
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-screen">
-      {server && channel && (<ChatHeader serverId={server?._id} name={channel?.name} type="channel" imageUrl={server.serverImage.url}/>)}
+      {server && channel && (<ChatHeader serverId={server?._id} name={channel?.name} type="channel" imageUrl={server.serverImage.url} channelType={channel.type} />)}
     </div>
   )
 }

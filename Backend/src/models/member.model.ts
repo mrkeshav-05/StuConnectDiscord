@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model, model } from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
 export enum MemberRole {
     ADMIN = 'ADMIN',
@@ -10,9 +10,13 @@ export interface IMember extends Document {
     role: MemberRole;
     profileId: string;
     serverId: string;
+    messages: mongoose.Types.ObjectId[];
+    directMessages: mongoose.Types.ObjectId[];
+    conversationInitiated: mongoose.Types.ObjectId[];
+    conversationReceived: mongoose.Types.ObjectId[];
 }
 
-const memberSchema: Schema = new Schema({
+const memberSchema: Schema<IMember> = new Schema<IMember>({
     role: { 
         type: String, 
         enum: MemberRole, 
@@ -28,6 +32,30 @@ const memberSchema: Schema = new Schema({
         ref: 'Server', 
         required: true 
     },
+    messages: [
+        { 
+            type: mongoose.Types.ObjectId, 
+            ref: 'Message' 
+        }
+    ],
+    directMessages: [
+        { 
+            type: mongoose.Types.ObjectId, 
+            ref: 'DirectMessage' 
+        }
+    ],
+    conversationInitiated: [
+        { 
+            type: mongoose.Types.ObjectId, 
+            ref: 'Conversation' 
+        }
+    ],
+    conversationReceived: [
+        { 
+            type: mongoose.Types.ObjectId, 
+            ref: 'Conversation' 
+        }
+    ],
 }, { 
     timestamps: true, 
 });

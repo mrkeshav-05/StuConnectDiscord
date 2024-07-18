@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model, model } from 'mongoose';
+import mongoose, { Document, Schema, Model } from 'mongoose';
 
 export enum ChannelType {
     TEXT = 'TEXT',
@@ -11,9 +11,10 @@ export interface IChannel extends Document {
     type: ChannelType;
     profileId: string;
     serverId: string;
+    messages: mongoose.Types.ObjectId[]
 }
 
-const channelSchema: Schema = new Schema({
+const channelSchema: Schema<IChannel> = new Schema<IChannel>({
     name: { 
         type: String, 
         required: true 
@@ -33,6 +34,12 @@ const channelSchema: Schema = new Schema({
         ref: 'Server', 
         required: true 
     },
+    messages: [
+        { 
+            type: mongoose.Types.ObjectId, 
+            ref: 'Message' 
+        }
+    ],
 }, { 
     timestamps: true, 
 });

@@ -6,6 +6,7 @@ import { ApiResponse } from '../utils/ApiResponse';
 import { Request, Response } from 'express';
 import { AuthRequest } from '../middleware/auth.middleware'
 import jwt from 'jsonwebtoken';
+import Profile, { IProfile } from '../models/profile.model';
 
 const generateAccessAndRefreshToken = async (userId: string): Promise<{ refreshToken: string, accessToken: string }> => {
     try {
@@ -270,6 +271,17 @@ const updateUserAvatar = asyncHandler(async (req: AuthRequest, res: Response) =>
     // Update user avatar with the entire response object
     user.avatar = newAvatar;
     await user.save();
+
+    // Update the profile imageUrl
+    const profile: IProfile = await Profile.findOneAndUpdate(
+        { userId: user._id },
+        { imageUrl: newAvatar.url },
+        { new: true }
+    );
+
+    if (!profile) {
+        throw new ApiError(404, "An error occurred while updating profile");
+    }
 
     return res.status(200).json(new ApiResponse(200, user, "Avatar Image Updated Successfully"));
 });

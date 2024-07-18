@@ -19,15 +19,16 @@ const getUserProfile = asyncHandler(async (req: AuthRequest, res: Response) => {
             .json(new ApiResponse(200, userProfile, "User profile fetched successfully"));
     }
 
+    
     let imageUrl = "";
     if (user.avatar && user.avatar.url) {
         imageUrl = user.avatar.url;
     }
-
+    
     const newUserProfile = await Profile.create({
         userId: user._id,
         username: user.username,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl || "",
         email: user.email,
     });
 
@@ -59,7 +60,20 @@ const getProfilesByServerId = asyncHandler(async (req: AuthRequest, res: Respons
     }
 });
 
+const getProfileById = asyncHandler(async(req: AuthRequest, res: Response) => {
+    const { profileId } = req.body;
+    const profile: IProfile | null = await Profile.findById(profileId)
+    if(!profile){
+        throw new ApiError(400, "Profile not found");
+    }
+
+    return res
+            .status(200)
+            .json(new ApiResponse(200, profile, "Profile fetched successfully"));
+})
+
 export {
     getUserProfile,
     getProfilesByServerId,
+    getProfileById,
 };

@@ -7,6 +7,7 @@ import profileRouter from '../src/routes/profile.routes'
 import serverRouter from '../src/routes/server.routes'
 import memberRouter from '../src/routes/member.routes'
 import channelRouter from '../src/routes/channel.routes'
+import conversationRouter from '../src/routes/conversation.routes'
 
 dotenv.config({
     path: './.env'
@@ -28,5 +29,6 @@ app.use("/api/v1/profiles", profileRouter)
 app.use("/api/v1/servers", serverRouter)
 app.use("/api/v1/members", memberRouter)
 app.use("/api/v1/channels", channelRouter)
+app.use("/api/v1/conversations", conversationRouter)
 
 export { app };

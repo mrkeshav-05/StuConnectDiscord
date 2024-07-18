@@ -97,4 +97,24 @@ export const deleteChannel = async (channelId: string, serverId: string) => {
         throw error;
     }
 }
+export const fetchConversation = async (currentUserMemberId: string, targetUserMemberId: string) => {
+    try {
+        const response = await api.post('/conversations/fetchConversation', { currentUserMemberId, targetUserMemberId });
+        console.log(response.data.data);
+        
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}
 
+export const getProfileById = async(profileId: string) => {
+    try {
+        const response = await api.post('/profiles/getProfileById', { profileId });
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        throw error;
+    }
+}

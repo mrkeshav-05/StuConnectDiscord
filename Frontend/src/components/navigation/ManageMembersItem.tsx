@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMembers, Member, selectMembers } from "@/features/member/MembersSlice";
 import { useEffect, useState } from "react";
 import { changeRoleToGuest, changeRoleToModerator, getProfilesByServerId, kickOutMember } from "@/app/apiCalls";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Profile, selectUserProfile } from "@/features/profile/ProfileSlice";
 import { MoreVertical, ShieldCheck, Trash } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -34,6 +34,7 @@ const ManageMembersItem = () => {
     const profile = useSelector(selectUserProfile);
     const params = useParams<{ id: string }>();
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate()
 
 
     const admin: Member | undefined = members.find((member: Member) => member.role === 'ADMIN');
@@ -80,11 +81,16 @@ const ManageMembersItem = () => {
         }
     };
 
+    const redirectToMemberIdPage = (memberId: string) => {
+        navigate(`/servers/${params.id}/members/${memberId}`)
+    }
+
     const renderProfile = (profileId: string, role: Role, memberId: string) => {
         const profile = profiles.find((profile) => profile._id === profileId);
+        
         if (profile) {
             return (
-                <CommandItem key={profile._id} className="flex hover:bg-[#1E1F22] items-center justify-between p-2">
+                <CommandItem key={profile._id} onSelect={() => {redirectToMemberIdPage(memberId)}} className="flex hover:bg-[#1E1F22] items-center justify-between p-2">
                     <div className="flex items-center">
                         <Avatar className="h-7 w-7 md:h-10 md:w-10">
                             <AvatarImage src={profile.imageUrl ?? undefined} />
