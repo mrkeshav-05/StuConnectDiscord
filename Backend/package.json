@@ -32,9 +32,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "getstream": "^8.4.1",
     "jsonwebtoken": "^9.0.2",
+    "livekit-server-sdk": "^2.5.1",
     "mongoose": "^8.4.3",
     "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.7.5",
+    "stream-chat": "^8.37.0",
     "uuid": "^10.0.0"
   }
 }
