@@ -6,7 +6,7 @@ import { logoutSuccess, setAccessToken } from '../features/auth/AuthSlice';
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-  baseURL: "https://stuconnect-seven.vercel.app",
+  baseURL: "https://stuconnect-seven.vercel.app/api/v1",
   withCredentials: true, // This ensures cookies are sent with requests
 });
 
