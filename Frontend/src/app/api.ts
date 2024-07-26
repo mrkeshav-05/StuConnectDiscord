@@ -41,7 +41,7 @@ export const initializeApiInterceptors = (store: Store) => {
         originalRequest._retry = true;
         try {
           const response = await axios.post(
-            `https://stuconnect-seven.vercel.app/users/refresh-token`,
+            `https://stuconnect-seven.vercel.app/api/v1/users/refresh-token`,
             {},
             { withCredentials: true } // Ensure cookies are sent
           );
