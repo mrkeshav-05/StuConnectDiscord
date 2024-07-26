@@ -6,7 +6,7 @@ import { logoutSuccess, setAccessToken } from '../features/auth/AuthSlice';
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-  baseURL: "stuconnect-ten.vercel.app",
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true, // This ensures cookies are sent with requests
 });
 
@@ -41,7 +41,7 @@ export const initializeApiInterceptors = (store: Store) => {
         originalRequest._retry = true;
         try {
           const response = await axios.post(
-            `stuconnect-ten.vercel.app/users/refresh-token`,
+            `${import.meta.env.VITE_BACKEND_URL}/users/refresh-token`,
             {},
             { withCredentials: true } // Ensure cookies are sent
           );
