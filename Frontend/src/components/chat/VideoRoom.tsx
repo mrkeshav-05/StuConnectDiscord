@@ -25,7 +25,7 @@ const VideoRoom = () => {
             video={true}
             audio={true}
             token={token}
-            serverUrl={import.meta.env.LIVEKIT_URL}
+            serverUrl="wss://stuconnect-qnglxjxo.livekit.cloud"
             // Use the default LiveKit theme for nice styles.
             data-lk-theme="default"
             style={{ height: '100vh' }}
