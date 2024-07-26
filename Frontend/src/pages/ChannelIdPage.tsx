@@ -1,6 +1,5 @@
 import ChatHeader from "@/components/chat/ChatHeader"
 import ChatSection from "@/components/chat/ChatSection"
-import VideoRoom from "@/components/chat/VideoRoom"
 import { Channel, selectChannels } from "@/features/channel/ChannelsSlice"
 import { selectServers, Server } from "@/features/server/ServerSlice"
 import { useSelector } from "react-redux"
@@ -15,12 +14,9 @@ const ChannelIdPage = () => {
   const server: Server | undefined = servers.find((server) => server._id === params.id)
   
   return (
-    <div className="bg-white dark:bg-[#313338] flex flex-col h-screen">
+    <div className="bg-white dark:bg-[#313338] flex flex-col h-screen w-full">
       {server && channel && (<ChatHeader serverId={server?._id} name={channel?.name} type="channel" imageUrl={server.serverImage.url} channelType={channel.type} />)}
       <ChatSection/>
-      <div className="h-96 w-full">
-      </div>
-        {/* <VideoRoom roomName={channel?.name} participantName="Jay"/> */}
     </div>
   )
 }

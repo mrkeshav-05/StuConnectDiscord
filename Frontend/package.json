@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cometchat-pro/chat": "^3.0.13",
     "@hookform/resolvers": "^3.6.0",
     "@livekit/components-react": "^2.3.6",
     "@livekit/components-styles": "^1.0.12",
