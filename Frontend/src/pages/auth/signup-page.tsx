@@ -37,7 +37,7 @@ export const SignUp: React.FC = () => {
   const handleRegister = async(credentials: z.infer<typeof SignupSchema>) => {
     //Register from backend
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/register', credentials);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/register`, credentials);
       //Login User
       const resultAction = await dispatch(login(credentials));
       if (login.fulfilled.match(resultAction)) {
