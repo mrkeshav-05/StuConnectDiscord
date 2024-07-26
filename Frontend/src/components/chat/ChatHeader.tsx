@@ -10,7 +10,6 @@ interface ChatHeaderProps{
 }
 
 const ChatHeader = ({
-    serverId,
     name,
     imageUrl,
     type,

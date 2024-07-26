@@ -1,4 +1,4 @@
-import { fetchConversation, getProfileById } from "@/app/apiCalls"
+import { getProfileById } from "@/app/apiCalls"
 import ChatHeader from "@/components/chat/ChatHeader"
 import { Member, selectMembers } from "@/features/member/MembersSlice"
 import { Profile, selectUserProfile } from "@/features/profile/ProfileSlice"
@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom"
 
 const MemberIdPage = () => {
   const params = useParams()
-  const [conversation, setConversation] = useState<any>(null)
   const [targetUserProfile, setTargetUserProfile] = useState<Profile>()
   const currentUserProfile: Profile = useSelector(selectUserProfile)
   const members: Member[] = useSelector(selectMembers)
@@ -18,8 +17,6 @@ const MemberIdPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (currentMember && targetMember) {
-        const conv = await fetchConversation(currentMember._id, targetMember._id)
-        setConversation(conv)
         const profile = await getProfileById(targetMember.profileId)
         setTargetUserProfile(profile)
       }
