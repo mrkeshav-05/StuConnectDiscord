@@ -21,7 +21,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 app.use(cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     credentials: true,
 }));
 
