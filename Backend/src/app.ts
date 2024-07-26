@@ -21,7 +21,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 app.use(cors({
-    origin: "https://stuconnect-app.vercel.app",
+    origin: "*",
     credentials: true,
 }));
 
