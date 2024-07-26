@@ -19,7 +19,9 @@ const ServerIdPage = () => {
       <div className='h-11 rounded-sm w-full z-20'>
           <Topbar/>
       </div>
-      <Outlet/>
+      <div className="h-screen w-full">
+        <Outlet/>
+      </div>  
     </div>
   )
 }

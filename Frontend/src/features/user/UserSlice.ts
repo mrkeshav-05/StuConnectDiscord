@@ -30,7 +30,7 @@ interface Image {
 }
 
 // Define the structure of the user object
-interface User {
+export interface User {
     _id: string;
     username: string;
     email: string;

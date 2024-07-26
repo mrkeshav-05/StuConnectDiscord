@@ -118,3 +118,14 @@ export const getProfileById = async(profileId: string) => {
         throw error;
     }
 }
+
+export const createLivekitVideoToken = async(roomName: string, participantName: string) => {
+    try {
+        const response = await api.post('/video/createLivekitVideoToken', {roomName, participantName})
+        return response.data.data;
+        
+    } catch (error) {
+        console.error('Error fetching Livekit Video Token:', error);
+        throw error;
+    }
+}

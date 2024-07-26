@@ -21,6 +21,7 @@ import CreateChannelModal from "@/components/modals/CreateChannelModal"
 import { Member, selectMembers } from "@/features/member/MembersSlice"
 import { Profile, selectUserProfile } from "@/features/profile/ProfileSlice"
 import DeleteChannelModal from "@/components/modals/DeleteChannelModal"
+import { createLivekitVideoToken } from "@/app/apiCalls"
 
 const ServerChannels = () => {
   const params = useParams()
@@ -36,8 +37,16 @@ const ServerChannels = () => {
   const currentUserMember = members.find((member) => member.profileId === profile._id)
   const currentUserRole = currentUserMember?.role
 
-  const handleChannelClick = (channelId: string) => {
+  const handleTextChannelClick = (channelId: string, ) => {
     navigate(`/servers/${params.id}/channels/${channelId}`)
+  }
+  const handleVideoChannelClick = async(channelName: string, name: string) => {
+    const response = await createLivekitVideoToken(channelName, name)
+    navigate(`/video/${response.token}`)
+  }
+  const handleAudioChannelClick = async(channelName: string, name: string) => {
+    const response = await createLivekitVideoToken(channelName, name)
+    navigate(`/audio/${response.token}`)
   }
 
   return (
@@ -51,7 +60,7 @@ const ServerChannels = () => {
             {textChannels.map((channel) => (
               <CommandItem
                 key={channel._id}
-                onSelect={() => { handleChannelClick(channel._id) }}
+                onSelect={() => { handleTextChannelClick(channel._id) }}
                 className={cn(params.channelId === channel._id ? `bg-[#1E1F22]` : ``, `hover:bg-zinc-700`)}
               >
                 <Hash className="mr-2 h-4 w-4"/>
@@ -69,7 +78,7 @@ const ServerChannels = () => {
                 {audioChannels.map((channel) => (
                   <CommandItem
                     key={channel._id}
-                    onSelect={() => { handleChannelClick(channel._id) }}
+                    onSelect={() => { handleAudioChannelClick(channel.name, profile.username) }}
                     className={cn(params.channelId === channel._id ? `bg-[#1E1F22]` : ``, `hover:bg-zinc-700`)}
                   >
                     <Mic className="mr-2 h-4 w-4" />
@@ -89,7 +98,7 @@ const ServerChannels = () => {
                 {videoChannels.map((channel) => (
                   <CommandItem
                     key={channel._id}
-                    onSelect={() => { handleChannelClick(channel._id) }}
+                    onSelect={() => { handleVideoChannelClick(channel.name, profile.username) }}
                     className={cn(params.channelId === channel._id ? `bg-[#1E1F22]` : ``, `hover:bg-zinc-700`)}
                   >
                     <Video className="mr-2 h-4 w-4" />

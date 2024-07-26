@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import '@/index.css'
+import '@/main.css'
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from '@/Layout'
@@ -16,6 +16,9 @@ import Test from '@/pages/Test'
 import ServerIdPage from '@/pages/ServerIdPage'
 import ChannelIdPage from '@/pages/ChannelIdPage'
 import MemberIdPage from '@/pages/MemberIdPage'
+import VideoRoom from '@/components/chat/VideoRoom'
+import AudioRoom from '@/components/chat/AudioRoom'
+// import 'stream-chat-react/dist/css/v2/index.css'
 
 const router = createBrowserRouter([
   // Protected Routes are Layout and its childrens
@@ -38,11 +41,19 @@ const router = createBrowserRouter([
               {
                 path: "members/:memberId",
                 element: <MemberIdPage/>
-              }
+              },
             ]
           },
         ]
       },
+      {
+        path: "video/:videoId",
+        element: <VideoRoom/>
+      },
+      {
+        path: "audio/:audioId",
+        element: <AudioRoom/>
+      }
     ]
   },
   //Public Routes
