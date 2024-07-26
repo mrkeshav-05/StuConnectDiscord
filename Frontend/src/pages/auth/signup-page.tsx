@@ -37,7 +37,7 @@ export const SignUp: React.FC = () => {
   const handleRegister = async(credentials: z.infer<typeof SignupSchema>) => {
     //Register from backend
     try {
-      const response = await axios.post(`https://stuconnect-seven.vercel.app/users/register`, credentials);
+      const response = await axios.post(`https://stuconnect-seven.vercel.app/api/v1/users/register`, credentials);
       //Login User
       const resultAction = await dispatch(login(credentials));
       if (login.fulfilled.match(resultAction)) {
