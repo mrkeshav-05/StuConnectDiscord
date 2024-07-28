@@ -1,13 +1,40 @@
+// {
+//     "compilerOptions": {
+//         "module": "NodeNext",
+//         "moduleResolution": "NodeNext",
+//         "baseUrl": "src",
+//         "outDir": "dist",
+//         "sourceMap": true,
+//         "noImplicitAny": true,
+//         "skipLibCheck": true,
+//         "paths": {
+//             "*": ["*"]
+//         }
+//     },
+//     "include": ["src/**/*"],
+// }
+
+
 {
-    "compilerOptions": {
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        "baseUrl": "src",
-        "outDir": "dist",
-        "sourceMap": true,
-        "noImplicitAny": true
-    },
-    "include": ["src/**/*"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "outDir": "dist/",
+    "rootDir": "./",
+    "lib": [
+      "es7",
+      "dom"
+    ]
+  },
+  "include": [
+    "src/"
+  ]
 }
 /*
 ==================CompilerOptions==============

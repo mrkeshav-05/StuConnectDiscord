@@ -1,10 +1,11 @@
-import dotenv from "dotenv"
+// import dotenv from "dotenv"
 import connectDB from "../src/db/index"
 import { httpServer } from "../src/app"
-
+import dotenv from 'dotenv'
 dotenv.config({
     path: './.env'
 })
+// require('dotenv').config({ debug: process.env.DEBUG })
 
 connectDB()
 .then(() => {
