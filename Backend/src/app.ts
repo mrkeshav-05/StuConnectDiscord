@@ -11,7 +11,7 @@ import channelRouter from '../src/routes/channel.routes';
 import conversationRouter from '../src/routes/conversation.routes';
 import videoRouter from '../src/routes/video.routes';
 import { initializeSocket } from "./socket/socket";  // Import the initializeSocket function
-
+import messagesRouter from '../src/routes/messages.routes';
 dotenv.config({
     path: './.env'
 });
@@ -41,5 +41,6 @@ app.use("/api/v1/members", memberRouter);
 app.use("/api/v1/channels", channelRouter);
 app.use("/api/v1/conversations", conversationRouter);
 app.use("/api/v1/video", videoRouter);
+app.use("/api/v1/messages", messagesRouter);
 
 export { app, httpServer };
