@@ -85,12 +85,74 @@ const ManageMembersItem = () => {
         navigate(`/servers/${params.id}/members/${memberId}`)
     }
 
+    // const renderProfile = (profileId: string, role: Role, memberId: string) => {
+    //     const profile = profiles.find((profile) => profile._id === profileId);
+        
+    //     if (profile) {
+    //         return (
+    //             <CommandItem key={profile._id} onSelect={() => {redirectToMemberIdPage(memberId)}} className="flex hover:bg-[#1E1F22] items-center justify-between p-2">
+    //                 <div className="flex items-center">
+    //                     <Avatar className="h-7 w-7 md:h-10 md:w-10">
+    //                         <AvatarImage src={profile.imageUrl ?? undefined} />
+    //                     </Avatar>
+    //                     <div className="flex flex-col gap-y-1 ml-3">
+    //                         <div className="text-sm text-black dark:text-white font-semibold flex items-center">
+    //                             {profile.username}
+    //                             {roleIconMap[role]}
+                                
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //                 <CommandShortcut className="text-white/60">
+    //                     {currentUserRole === 'ADMIN' && role !== 'ADMIN' && (
+    //                         <div className="mr-1">
+    //                             <DropdownMenu>
+    //                                 <DropdownMenuTrigger>
+    //                                     <MoreVertical className="h-4 w-4 text-white" />
+    //                                 </DropdownMenuTrigger>
+    //                                 <DropdownMenuContent side="left">
+    //                                     <DropdownMenuCheckboxItem
+    //                                         onClick={() => { changeRoleToGuestFunction(memberId) }}
+    //                                         className={`flex cursor-pointer rounded-sm p-1 ${role === 'GUEST' ? 'bg-yellow-700' : 'bg-transparent'}`}>
+    //                                         <p className="text-xm font-semibold">Guest</p>
+    //                                         <ShieldCheck className="h-4 w-4 mt-1 ml-2 text-green-500" />
+    //                                     </DropdownMenuCheckboxItem>
+    //                                     <DropdownMenuSeparator />
+    //                                     <DropdownMenuCheckboxItem
+    //                                         onClick={() => { changeRoleToModeratorFunction(memberId) }}
+    //                                         className={`flex cursor-pointer p-1 rounded-sm ${role === 'MODERATOR' ? 'bg-yellow-700' : 'bg-transparent'}`}>
+    //                                         <p className="text-xm font-semibold">Moderator</p>
+    //                                         <ShieldCheck className="h-4 w-4 mt-1 ml-2 text-indigo-500" />
+    //                                     </DropdownMenuCheckboxItem>
+    //                                     <DropdownMenuSeparator />
+    //                                     <DropdownMenuCheckboxItem
+    //                                         onClick={() => { kickOutMemberFunction(memberId, profile._id) }}
+    //                                         className="flex cursor-pointer p-1">
+    //                                         <p className="text-xm font-semibold">Kick </p>
+    //                                         <Trash className="h-4 w-4 ml-2 mt-1 text-red-500" />
+    //                                     </DropdownMenuCheckboxItem>
+    //                                 </DropdownMenuContent>
+    //                             </DropdownMenu>
+    //                         </div>
+    //                     )}
+    //                 </CommandShortcut>
+    //             </CommandItem>
+    //         );
+    //     }
+    //     return null;
+    // };
+
+    
     const renderProfile = (profileId: string, role: Role, memberId: string) => {
         const profile = profiles.find((profile) => profile._id === profileId);
         
         if (profile) {
+            function setActiveChatMember(profileId: string): void {
+                throw new Error("Function not implemented.");
+            }
+
             return (
-                <CommandItem key={profile._id} onSelect={() => {redirectToMemberIdPage(memberId)}} className="flex hover:bg-[#1E1F22] items-center justify-between p-2">
+                <CommandItem key={profile._id} className="flex hover:bg-[#1E1F22] items-center justify-between p-2">
                     <div className="flex items-center">
                         <Avatar className="h-7 w-7 md:h-10 md:w-10">
                             <AvatarImage src={profile.imageUrl ?? undefined} />
@@ -130,6 +192,12 @@ const ManageMembersItem = () => {
                                             <p className="text-xm font-semibold">Kick </p>
                                             <Trash className="h-4 w-4 ml-2 mt-1 text-red-500" />
                                         </DropdownMenuCheckboxItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuCheckboxItem
+                                            onClick={() => setActiveChatMember(profileId)}
+                                            className="flex cursor-pointer p-1">
+                                            <p className="text-xm font-semibold">Chat</p>
+                                        </DropdownMenuCheckboxItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
@@ -140,7 +208,7 @@ const ManageMembersItem = () => {
         }
         return null;
     };
-
+        
     return (
         <Command className="rounded-lg h-screen dark:bg-[#2B2D31] border-none text-white">
             <CommandInput

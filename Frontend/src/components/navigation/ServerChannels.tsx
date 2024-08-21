@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/command"
 import { Channel, selectChannels } from "@/features/channel/ChannelsSlice"
 import { useSelector } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import CreateChannelModal from "@/components/modals/CreateChannelModal"
 import { Member, selectMembers } from "@/features/member/MembersSlice"
