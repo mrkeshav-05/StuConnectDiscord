@@ -3,8 +3,14 @@ import GroupMessage from '../models/groupMessages.model'; // Assuming this is yo
 
 // Send a message to a group
 export const sendGroupMessage = async (req: Request, res: Response) => {
-    const { groupId, senderId, message, fileUrl } = req.body;
-
+    const { groupId, senderId, message } = req.body;
+    let { fileUrl } = req.body;
+    if (!groupId || !senderId || !message) {
+        return res.status(400).json({ message: 'Group ID, Sender ID and Message are required' });
+    }
+    if(!fileUrl){
+      fileUrl = '';
+    }
     try {
         const newGroupMessage = new GroupMessage({ groupId, senderId, message, fileUrl });
         await newGroupMessage.save();

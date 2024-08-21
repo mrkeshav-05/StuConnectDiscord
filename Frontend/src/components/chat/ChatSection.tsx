@@ -39,7 +39,7 @@ const GeneralChat: React.FC = () => {
 
   return (
     <div>
-      <div className="chat-box">
+      {/* <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index}>
             <strong>{msg.sender}:</strong> {msg.content}
@@ -51,7 +51,8 @@ const GeneralChat: React.FC = () => {
         onChange={(e) => setNewMessage(e.target.value)}
         placeholder="Type a message"
       />
-      <button onClick={handleSendMessage}>Send</button>
+      <button onClick={handleSendMessage}>Send</button> */}
+      hi
     </div>
   );
 };

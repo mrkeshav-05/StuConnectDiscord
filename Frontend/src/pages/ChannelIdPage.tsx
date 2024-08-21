@@ -16,7 +16,7 @@ const ChannelIdPage = () => {
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-screen w-full">
       {server && channel && (<ChatHeader serverId={server?._id} name={channel?.name} type="channel" imageUrl={server.serverImage.url} channelType={channel.type} />)}
-      <ChatSection/>
+      
     </div>
   )
 }

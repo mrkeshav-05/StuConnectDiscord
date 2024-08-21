@@ -26,7 +26,8 @@ const MemberIdPage = () => {
   
   return (
     <div className="bg-white dark:bg-[#313338] flex flex-col h-screen">
-      {targetUserProfile && targetUserProfile.imageUrl && (<ChatHeader serverId={params?.id} name={targetUserProfile?.username} imageUrl={targetUserProfile?.imageUrl} type="conversation" />)}
+      {/* {targetUserProfile && targetUserProfile.imageUrl && (<ChatHeader serverId={params?.id} name={targetUserProfile?.username} imageUrl={targetUserProfile?.imageUrl} type="conversation" />)} */}
+      hello i am in member
     </div>
   )
 }
