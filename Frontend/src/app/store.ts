@@ -19,6 +19,7 @@ import uploadReducer from '@/features/Upload/UploadSlice';
 import serverReducer from '@/features/server/ServerSlice';
 import channelReducer from '@/features/channel/ChannelsSlice';
 import memberReducer from '@/features/member/MembersSlice';
+import messageReducer from '@/features/messages/messageSlice'; // Import the correct module path
 import { resetStore } from '@/app/resetActions'; // Import the reset action
 
 // Combine all reducers
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   server: serverReducer,
   channels: channelReducer,
   members: memberReducer,
+  messages: messageReducer,
 });
 
 // Configuration for redux-persist

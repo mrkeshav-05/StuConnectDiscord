@@ -9,11 +9,12 @@ export const sendGroupMessage = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Group ID, Sender ID and Message are required' });
     }
     if(!fileUrl){
-      fileUrl = '';
+        fileUrl = '';
     }
     try {
         const newGroupMessage = new GroupMessage({ groupId, senderId, message, fileUrl });
         await newGroupMessage.save();
+        console.log(newGroupMessage);
         return res.status(201).json(newGroupMessage);
     } catch (error) {
         return res.status(500).json({ error: 'Failed to send message' });
@@ -26,6 +27,7 @@ export const getGroupMessages = async (req: Request, res: Response) => {
 
     try {
         const messages = await GroupMessage.find({ groupId }).sort({ createdAt: 1 });
+        console.log(messages);
         return res.status(200).json(messages);
     } catch (error) {
         return res.status(500).json({ error: 'Failed to retrieve messages' });
