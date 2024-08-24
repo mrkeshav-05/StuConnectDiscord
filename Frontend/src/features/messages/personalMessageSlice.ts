@@ -6,9 +6,9 @@ import { resetStore } from '@/app/resetActions';
 interface Message {
   _id: string;
   senderId: string;
-  senderUsername: string;
   content: string;
-  channelId: string;
+  // senderUsername: string;
+  receiverId: string;
   createdAt: string;
 }
 
@@ -26,19 +26,26 @@ const initialState: MessagesState = {
 };
 
 export interface SendMessagePayload {
-  channelId: string;
+  receiverId: string;
   senderId: string;
   message: string;
 }
 
+// const currentUser = useSelector(selectCurrentUser);
+// const senderId = currentUser?._id;
 // Async Thunk to Fetch Messages
-export const fetchMessages = createAsyncThunk<Message[], string, { rejectValue: string }>(
+interface FetchMessagesPayload {
+  senderId: string;
+  receiverId: string;
+}
+
+export const fetchMessages = createAsyncThunk<Message[], FetchMessagesPayload, { rejectValue: string }>(
   'messages/fetchMessages',
-  async (groupId, { rejectWithValue }) => {
+  async ({ senderId, receiverId }, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/messages/group-message/${groupId}`);
-      // console.log(response.data);
-      
+      // console.log(senderId, receiverId)
+      const response = await api.get(`/messages/direct-message/${receiverId}/${senderId}`);
+      console.log(response.data)
       return response.data as Message[];
     } catch (error: any) {
       if (error.response && error.response.data) {
@@ -54,11 +61,11 @@ export const fetchMessages = createAsyncThunk<Message[], string, { rejectValue: 
 // Async Thunk to Send Message
 export const sendMessage = createAsyncThunk<Message, SendMessagePayload, { rejectValue: string }>(
   'messages/sendMessage',
-  async ({ channelId, senderId, message }, { rejectWithValue }) => {
-    // console.log("Sending message:", { channelId, senderId, message }); // Add this log
+  async ({senderId, receiverId, message }, { rejectWithValue }) => {
+    console.log("Sending message:", { receiverId, senderId, message }); // Add this log
     try {
-      const response = await api.post('/messages/group-message', {
-        groupId: channelId,
+      const response = await api.post('/messages/direct-message', {
+        receiverId,
         senderId,
         message
       });
@@ -75,7 +82,6 @@ export const sendMessage = createAsyncThunk<Message, SendMessagePayload, { rejec
     }
   }
 );
-
 
 // Messages Slice
 const messagesSlice = createSlice({
